@@ -19,6 +19,24 @@ container "browserless" {
   }
 }
 
+
+variable "cn_network" {
+  default = "local"
+}
+
+variable "cn_nomad_cluster_name" {
+  default = "nomad_cluster.local"
+}
+
+variable "cn_nomad_client_nodes" {
+  default = 0
+}
+
+#module "consul_nomad" {
+#  source     = "github.com/shipyard-run/blueprints?ref=d9446bfc97759e66b82b1fed60fd70c94ab98238/modules//consul-nomad"
+#  #source = "/home/nicj/go/src/github.com/shipyard-run/blueprints/modules/consul-nomad"
+#}
+
 container "app" {
   network {
     name = "network.local"
