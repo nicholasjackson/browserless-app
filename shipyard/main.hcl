@@ -1,3 +1,7 @@
+variable "local_test" {
+  default = false
+}
+
 container "browserless" {
   network {
     name = "network.local"
@@ -8,13 +12,13 @@ container "browserless" {
   }
 
   env {
-    key = "MAX_CONCURRENT_SESSIONS"
+    key   = "MAX_CONCURRENT_SESSIONS"
     value = "10"
   }
-  
+
   port {
-    local = "3000"
-    host = "3000"
+    local  = "3000"
+    host   = "3000"
     remote = "3000"
   }
 }
@@ -32,12 +36,15 @@ variable "cn_nomad_client_nodes" {
   default = 0
 }
 
-#module "consul_nomad" {
-#  source     = "github.com/shipyard-run/blueprints?ref=d9446bfc97759e66b82b1fed60fd70c94ab98238/modules//consul-nomad"
-#  #source = "/home/nicj/go/src/github.com/shipyard-run/blueprints/modules/consul-nomad"
-#}
+module "consul_nomad" {
+  source = "github.com/shipyard-run/blueprints?ref=d9446bfc97759e66b82b1fed60fd70c94ab98238/modules//consul-nomad"
+  #source = "/home/nicj/go/src/github.com/shipyard-run/blueprints/modules/consul-nomad"
+}
 
 container "app" {
+  disabled = var.local_test
+
+
   network {
     name = "network.local"
   }
@@ -47,17 +54,17 @@ container "app" {
   }
 
   env {
-    key = "BROWSERLESS"
+    key   = "BROWSERLESS"
     value = "ws://browserless.container.shipyard.run:3000"
   }
 
   port {
-    local = "8080"
-    host = "8080"
+    local  = "8080"
+    host   = "8080"
     remote = "8080"
   }
 }
 
 network "local" {
-    subnet = "10.0.0.0/16"
+  subnet = "10.0.0.0/16"
 }
