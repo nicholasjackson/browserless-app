@@ -18,7 +18,7 @@ container "browserless" {
 
   port {
     local  = "3000"
-    host   = "3000"
+    host   = "13000"
     remote = "3000"
   }
 }
@@ -63,6 +63,10 @@ container "app" {
     host   = "8080"
     remote = "8080"
   }
+}
+
+output "BROWSERLESS" {
+  value = "ws://localhost:13000"
 }
 
 network "local" {
